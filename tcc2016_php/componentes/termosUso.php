@@ -11,15 +11,17 @@ if($result){
 	
 	$termos = $result[0]['descricao_termo'];
 	$sucesso = 1;
-	$mensagem = "Consulta realizada com Sucesso.\n\n";
-	
-	echo $mensagem;
-	echo $termos;
+	$mensagem = "Consulta realizada com Sucesso";
 	
 }else{
-	
+	$termos = "";
 	$mensagem = "Erro na Consulta no Banco de Dados";
 	echo $mensagem;
 }
-
 ?>
+
+<xml>
+	<sucesso valor="<?php echo $sucesso?>"/>
+	<mensagem valor="<?php echo $mensagem?>"/>
+	<termos valor="<?php echo $termos?>"/>
+</xml>
