@@ -21,7 +21,7 @@ if($result){
 ?>
 
 <xml>
-	<sucesso valor="<?php echo $sucesso?>"/>
-	<mensagem valor="<?php echo $mensagem?>"/>
-	<termos valor="<?php echo $termos?>"/>
+	<sucesso valor="<?php echo $sucesso;?>"/>
+	<mensagem valor="<?php echo $mensagem;?>"/>
+	<termos valor="<?php echo $termos;?>"/>
 </xml>

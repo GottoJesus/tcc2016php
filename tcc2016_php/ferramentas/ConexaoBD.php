@@ -16,6 +16,7 @@ function previneSQLInjection($string){
 	$string = str_ireplace("WHERE", "", $string);
 	$string = addslashes($string);
 	$string = strip_tags($string);
+	$string = trim($string);
 	
 	return $string;
 }

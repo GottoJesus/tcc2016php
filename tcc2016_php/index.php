@@ -18,8 +18,8 @@ switch ($operacao) {
 		include_once "componentes/termosUso.php";
 	break;
 	
-	default:
-		;
+	case "listarDeficiencias":
+		include_once "componentes/listarDeficiencias.php";
 	break;
 }
 ?>
