@@ -61,7 +61,7 @@ function cadastraResponsavel($id,$conexao){
 
 	try {
 		$query = "INSERT INTO `usuarios_responsaveis`(`id_usuario`, `cpf_resp`, `data_nasc`, `ddd_resp`, `tel_resp`, `grau_parentesco`)
-			      VALUES (".$id.",'".$cpf."','".$dataNascResp."',".$ddd.",".$telefone.",'".$id."')";
+			      VALUES (".$id.",'".$cpf."','".$dataNascResp."',".$ddd.",".$telefone.",'".$grauParent."')";
 		$conexao->query($query);
 		$id_resp = $conexao->lastInsertId();
 		
@@ -75,12 +75,7 @@ function cadastraResponsavel($id,$conexao){
 		$result = $result->fetchAll(PDO::FETCH_ASSOC);
 		$id_deficiencia = $result[0]['id'];
 		
-		
-		$query = "SELECT `id` FROM `usuarios_instituicao` WHERE `cnpj` = '".$cnpjInstituicao."'";
-		$result = $conexao->query($query);
-		$result = $result->fetchAll(PDO::FETCH_ASSOC);
-		$id_instituicao = $result[0]['id'];
-		
+		$id_instituicao = getIdInstituicao($cnpjInstituicao, $conexao);
 		
 		$query = "INSERT INTO `alunos_deficiencias`(`id_aluno`, `id_deficiencia`) 
 				  VALUES (".$id_aluno.",".$id_deficiencia.")";
@@ -140,11 +135,8 @@ function cadastraProfessor($id,$conexao){
 				  VALUES (".$id.",'".$cpf."','".$dataNasc."')";
 		$conexao->query($query);
 		$id_prof = $conexao->lastInsertId();
-		
-		$query = "SELECT `id` FROM `usuarios_instituicao` WHERE `cnpj` = '".$cnpjInstituicao."'";
-		$result = $conexao->query($query);
-		$result = $result->fetchAll(PDO::FETCH_ASSOC);
-		$id_instituicao = $result[0]['id'];
+
+		$id_instituicao = getIdInstituicao($cnpjInst, $conexao);
 		
 		$query = "INSERT INTO `relacao_instituicao_professores`(`id_instituicao`, `id_professor`) 
 				  VALUES (".$id_instituicao.",".$id_prof.")";
@@ -155,7 +147,20 @@ function cadastraProfessor($id,$conexao){
 	} catch (Exception $e) {
 		return false;
 	}
+	
 }
+
+function getIdInstituicao($cnpj, $conexao){
+	$query = "SELECT `id` FROM `usuarios_instituicao` WHERE `cnpj` = '".$cnpj."'";
+	$result = $conexao->query($query);
+	if($result){
+		$result = $result->fetchAll(PDO::FETCH_ASSOC);
+		return $result[0]['id'];
+	}else{
+		return false;
+	}
+}
+
 ?>
 
 <xml>
