@@ -19,17 +19,25 @@ if($conexao->query($query)){
 	
 	switch ($tipoUsuario) {
 		case "responsavel":
-			cadastraResponsavel($id_usuario,$conexao);
+			$cadastro = cadastraResponsavel($id_usuario,$conexao);
 		break;
 		
 		case "instituicao":
-			cadastraInstituicao($id_usuario,$conexao);
+			$cadastro = cadastraInstituicao($id_usuario,$conexao);
 		break;
 		
 		case "professor":
-			cadastraProfessor($id_usuario,$conexao);
+			$cadastro = cadastraProfessor($id_usuario,$conexao);
 		break;
 	}
+	
+	if($cadastro){
+		$sucesso = 1;
+		$mensagem = "Cadastro efetuado com sucesso";
+	}else{
+		$mensagem = "Erro no cadastro do Usuário";
+	}
+	
 }else{
 	$mensagem = "Erro no cadastro do Usuário";
 }
@@ -86,11 +94,9 @@ function cadastraResponsavel($id,$conexao){
 				  VALUES (".$id_aluno.",".$id_instituicao.")";
 		$conexao->query($query);
 		
-		$sucesso = 1;
-		$mensagem = "Usuario cadastrado com sucesso!!";
-		
+		return true;
 	}catch(Exception $e){
-		$mensagem = "Erro no cadastro do Responsável";
+		return false;
 	}
 }
 
@@ -114,11 +120,10 @@ function cadastraInstituicao($id,$conexao){
 				  		  ".$numero.",'".$bairro."','".$complemento."','".$cidade."','".$estado."','".$pais."')";
 		$conexao->query($query);
 		
-		$sucesso = 1;
-		$mensagem = "Usuario cadastrado com sucesso!!";
+		return true;
 		
 	} catch (Exception $e){
-		$mensagem = "Erro no cadastro da Instituição";
+		return false;
 	}
 }
 
@@ -145,11 +150,10 @@ function cadastraProfessor($id,$conexao){
 				  VALUES (".$id_instituicao.",".$id_prof.")";
 		$conexao->query($query);
 		
-		$sucesso = 1;
-		$mensagem = "Usuario cadastrado com sucesso!!";
+		return true;
 		
 	} catch (Exception $e) {
-		$mensagem = "Erro no cadastro do Professor";
+		return false;
 	}
 }
 ?>
