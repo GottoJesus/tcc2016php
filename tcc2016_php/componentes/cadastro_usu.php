@@ -53,12 +53,12 @@ function cadastraResponsavel($id,$conexao){
 
 	try {
 		$query = "INSERT INTO `usuarios_responsaveis`(`id_usuario`, `cpf_resp`, `data_nasc`, `ddd_resp`, `tel_resp`, `grau_parentesco`)
-			      VALUES (".$id.",".$cpf.",'".$dataNascResp."',".$ddd.",".$telefone.",'".$id."')";
+			      VALUES (".$id.",'".$cpf."','".$dataNascResp."',".$ddd.",".$telefone.",'".$id."')";
 		$conexao->query($query);
 		$id_resp = $conexao->lastInsertId();
 		
 		$query = "INSERT INTO `alunos`(`nome_aluno`, `data_nasc`, `cpf_aluno`, `rg_aluno`, `cert_nasc_aluno`) 
-				  VALUES ('".$nomeAluno."','".$dataNascAluno."',".$cpfAluno.",'".$rgAluno."','".$certNascAluno."')";
+				  VALUES ('".$nomeAluno."','".$dataNascAluno."','".$cpfAluno."','".$rgAluno."','".$certNascAluno."')";
 		$conexao->query($query);
 		$id_aluno = $conexao->lastInsertId();
 		
@@ -126,11 +126,11 @@ function cadastraProfessor($id,$conexao){
 	try {
 		
 		$query = "INSERT INTO `usuarios_professores`(`id_usuario`, `cpf_prof`, `data_nasc`) 
-				  VALUES (".$id.",".$cpf.",'".$dataNasc."')";
+				  VALUES (".$id.",'".$cpf."','".$dataNasc."')";
 		$conexao->query($query);
 		$id_prof = $conexao->lastInsertId();
 		
-		$query = "SELECT `id` FROM `usuarios_instituicao` WHERE `cnpj` = ".$cnpjInstituicao."";
+		$query = "SELECT `id` FROM `usuarios_instituicao` WHERE `cnpj` = '".$cnpjInstituicao."'";
 		$result = $conexao->query($query);
 		$result = $result->fetchAll(PDO::FETCH_ASSOC);
 		$id_instituicao = $result[0]['id'];
