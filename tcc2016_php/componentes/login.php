@@ -1,5 +1,6 @@
 <?php
 include_once 'ferramentas/ConexaoBD.php';
+
 $login = previneSQLInjection($_REQUEST['login']);
 $senha = previneSQLInjection($_REQUEST['senha']);
 $nomeUsuario = "";
@@ -8,23 +9,52 @@ $tipoUsuario = "";
 
 $sucesso = 0;
 $mensagem = "";
-$senhaHash = password_hash($senha,PASSWORD_BCRYPT);
 
-$query =  "SELECT * FROM `usuario` WHERE `login` = '".$login."'";
+$query = "SELECT * FROM `usuario` WHERE `login` = '".$login."'";
 $result = $conexao->query($query);
-
 
 if($result){
 	$result = $result->fetchAll(PDO::FETCH_ASSOC);
 	$psw = $result[0]['senha'];
-	if($senhaHash != $psw){
-		$mensagem = "Usuário inválido";
+	
+	if(count($result)>0){
+		if(!password_verify($senha, $psw)){
+			$mensagem = "Erro no Login do Usuário\n  - Senha Inválida";
+		}else{
+			$sucesso = 1;
+			$mensagem = "Usuário válido";
+			$nomeUsuario = $result[0]['nome_usuario'];
+		
+			$id = $result[0]['id'];
+		
+			// verificar qual o tipo do usuario
+		
+			$query = "SELECT * FROM `usuarios_instituicao` WHERE `id_usuario` = ".$id."";
+			$result = $conexao->query($query);
+		
+			if($result){
+				$tipoUsuario = 'instituicao';
+			}else{
+				$query = "SELECT * FROM `usuarios_professores` WHERE `id_usuario` = ".$id."";
+				$result = $conexao->query($query);
+				if($result){
+					$tipoUsuario = 'professor';
+				}else{
+					$query = "SELECT * FROM `usuarios_responsaveis` WHERE `id_usuario` = ".$id."";
+					$result = $conexao->query($query);
+					if($result){
+						$tipoUsuario = 'responsavel';
+					}
+				}
+					
+			}
+		}
 	}else{
-		$sucesso = 0;
-		$mensagem = "Usuário válido";
+		$mensagem = "Erro no Login do Usuário\n  - Usuário não existe";
 	}
+	
 }else{
-	$mensagem = "Usuário inválido";
+	$mensagem = "Erro no Login do Usuário\n  - Usuário não existe";
 }
 
 ?>

@@ -1,5 +1,5 @@
 <?php 
-$conexao = new PDO("mysql:host=localhost;dbname=db_tcc2016", "root", "");
+$conexao = new PDO("mysql:host=localhost;dbname=db_tcc2016;charset=utf8", "root", "");
 
 function previneSQLInjection($string){
 	
