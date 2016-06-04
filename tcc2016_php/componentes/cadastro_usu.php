@@ -86,6 +86,9 @@ function cadastraResponsavel($id,$conexao){
 				  VALUES (".$id_aluno.",".$id_instituicao.")";
 		$conexao->query($query);
 		
+		$sucesso = 1;
+		$mensagem = "Usuario cadastrado com sucesso!!";
+		
 	}catch(Exception $e){
 		$mensagem = "Erro no cadastro do Responsável";
 	}
@@ -110,6 +113,9 @@ function cadastraInstituicao($id,$conexao){
 				  VALUES (".$id.",'".$cnpj."',".$ddd.",".$telefone.",".$cep.",'".$rua."',
 				  		  ".$numero.",'".$bairro."','".$complemento."','".$cidade."','".$estado."','".$pais."')";
 		$conexao->query($query);
+		
+		$sucesso = 1;
+		$mensagem = "Usuario cadastrado com sucesso!!";
 		
 	} catch (Exception $e){
 		$mensagem = "Erro no cadastro da Instituição";
@@ -138,6 +144,9 @@ function cadastraProfessor($id,$conexao){
 		$query = "INSERT INTO `relacao_instituicao_professores`(`id_instituicao`, `id_professor`) 
 				  VALUES (".$id_instituicao.",".$id_prof.")";
 		$conexao->query($query);
+		
+		$sucesso = 1;
+		$mensagem = "Usuario cadastrado com sucesso!!";
 		
 	} catch (Exception $e) {
 		$mensagem = "Erro no cadastro do Professor";

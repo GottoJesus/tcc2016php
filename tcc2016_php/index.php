@@ -11,7 +11,7 @@ switch ($operacao) {
 	break;
 	
 	case "listaPerguntas":
-		include_once "componentes/lista_perguntas.php";
+		include_once "componentes/listarPerguntas.php";
 	break;
 	
 	case "termosUso":
