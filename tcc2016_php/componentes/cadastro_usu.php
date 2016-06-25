@@ -11,8 +11,8 @@ $mensagem = "";
 
 $senhaHash = password_hash($senha,PASSWORD_BCRYPT);
 
-$query = "INSERT INTO `usuario`(`login`, `senha`, `nome_usuario`, `email`) 
-		  VALUES ('".$login."','".$senhaHash."','".$nomeUsuario."','".$email."')";
+$query = "INSERT INTO `usuario`(`login`, `senha`, `nome_usuario`, `email`, `data_cadastro`, `data_modificacao`, `published`) 
+		  VALUES ('".$login."','".$senhaHash."','".$nomeUsuario."','".$email."', NOW(), NOW(), 1)";
 
 if($conexao->query($query)){
 	$id_usuario = $conexao->lastInsertId();
@@ -65,8 +65,8 @@ function cadastraResponsavel($id,$conexao){
 		$conexao->query($query);
 		$id_resp = $conexao->lastInsertId();
 		
-		$query = "INSERT INTO `alunos`(`nome_aluno`, `data_nasc`, `cpf_aluno`, `rg_aluno`, `cert_nasc_aluno`) 
-				  VALUES ('".$nomeAluno."','".$dataNascAluno."','".$cpfAluno."','".$rgAluno."','".$certNascAluno."')";
+		$query = "INSERT INTO `alunos`(`nome_aluno`, `data_nasc`, `cpf_aluno`, `rg_aluno`, `cert_nasc_aluno`, `data_cadastro`, `data_modificacao`, `published`) 
+				  VALUES ('".$nomeAluno."','".$dataNascAluno."','".$cpfAluno."','".$rgAluno."','".$certNascAluno."', NOW(), NOW(), 1)";
 		$conexao->query($query);
 		$id_aluno = $conexao->lastInsertId();
 		
@@ -77,16 +77,16 @@ function cadastraResponsavel($id,$conexao){
 		
 		$id_instituicao = getIdInstituicao($cnpjInstituicao, $conexao);
 		
-		$query = "INSERT INTO `alunos_deficiencias`(`id_aluno`, `id_deficiencia`) 
-				  VALUES (".$id_aluno.",".$id_deficiencia.")";
+		$query = "INSERT INTO `alunos_deficiencias`(`id_aluno`, `id_deficiencia`, `data_cadastro`, `data_modificacao`, `published`) 
+				  VALUES (".$id_aluno.",".$id_deficiencia.", NOW(), NOW(), 1)";
 		$conexao->query($query);
 		
-		$query = "INSERT INTO `relacao_responsaveis_alunos`(`id_aluno`, `id_responsavel`) 
-				  VALUES (".$id_aluno.",".$id_resp.")";
+		$query = "INSERT INTO `relacao_responsaveis_alunos`(`id_aluno`, `id_responsavel`, `data_cadastro`, `data_modificacao`, `published`) 
+				  VALUES (".$id_aluno.",".$id_resp.", NOW(), NOW(), 1)";
 		$conexao->query($query);
 		
-		$query = "INSERT INTO `relacao_alunos_instituicao`(`id_aluno`, `id_instituicao`) 
-				  VALUES (".$id_aluno.",".$id_instituicao.")";
+		$query = "INSERT INTO `relacao_alunos_instituicao`(`id_aluno`, `id_instituicao`, `data_cadastro`, `data_modificacao`, `published`) 
+				  VALUES (".$id_aluno.",".$id_instituicao.", NOW(), NOW(), 1)";
 		$conexao->query($query);
 		
 		return true;
@@ -138,8 +138,8 @@ function cadastraProfessor($id,$conexao){
 
 		$id_instituicao = getIdInstituicao($cnpjInst, $conexao);
 		
-		$query = "INSERT INTO `relacao_instituicao_professores`(`id_instituicao`, `id_professor`) 
-				  VALUES (".$id_instituicao.",".$id_prof.")";
+		$query = "INSERT INTO `relacao_instituicao_professores`(`id_instituicao`, `id_professor`, `data_cadastro`, `data_modificacao`, `published`) 
+				  VALUES (".$id_instituicao.",".$id_prof.", NOW(), NOW(), 1)";
 		$conexao->query($query);
 		
 		return true;

@@ -6,7 +6,6 @@ $senha = previneSQLInjection($_REQUEST['senha']);
 $nomeUsuario = "";
 $tipoUsuario = "";
 
-
 $sucesso = 0;
 $mensagem = "";
 
@@ -15,9 +14,9 @@ $result = $conexao->query($query);
 
 if($result){
 	$result = $result->fetchAll(PDO::FETCH_ASSOC);
-	$psw = $result[0]['senha'];
 	
 	if(count($result)>0){
+		$psw = $result[0]['senha'];
 		if(!password_verify($senha, $psw)){
 			$mensagem = "Erro no Login do Usuário\n  - Senha Inválida";
 		}else{

@@ -10,7 +10,7 @@ switch ($operacao) {
 		include_once "componentes/cadastro_usu.php";
 	break;
 	
-	case "listaPerguntas":
+	case "listarPerguntas":
 		include_once "componentes/listarPerguntas.php";
 	break;
 	
