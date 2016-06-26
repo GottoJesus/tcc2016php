@@ -27,26 +27,40 @@ if($result){
 			$id = $result[0]['id'];
 		
 			// verificar qual o tipo do usuario
-		
+			
+			$tipoUsuario = "";
+			
 			$query = "SELECT * FROM `usuarios_instituicao` WHERE `id_usuario` = ".$id."";
 			$result = $conexao->query($query);
 		
 			if($result){
-				$tipoUsuario = 'instituicao';
-			}else{
+				$result = $result->fetchAll(PDO::FETCH_ASSOC);
+				if(count($result)>0){
+					$tipoUsuario = 'instituicao';
+				}
+			}
+			if($tipoUsuario == ""){
 				$query = "SELECT * FROM `usuarios_professores` WHERE `id_usuario` = ".$id."";
 				$result = $conexao->query($query);
 				if($result){
-					$tipoUsuario = 'professor';
-				}else{
-					$query = "SELECT * FROM `usuarios_responsaveis` WHERE `id_usuario` = ".$id."";
-					$result = $conexao->query($query);
-					if($result){
+					$result = $result->fetchAll(PDO::FETCH_ASSOC);
+					if(count($result)>0){
+						$tipoUsuario = 'professor';
+					}
+				}
+			}
+			
+			if($tipoUsuario == ""){
+				$query = "SELECT * FROM `usuarios_responsaveis` WHERE `id_usuario` = ".$id."";
+				$result = $conexao->query($query);
+				if($result){
+					$result = $result->fetchAll(PDO::FETCH_ASSOC);
+					if(count($result)>0){
 						$tipoUsuario = 'responsavel';
 					}
 				}
-					
 			}
+				
 		}
 	}else{
 		$mensagem = "Erro no Login do Usuário\n  - Usuário não existe";
